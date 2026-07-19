@@ -1,13 +1,613 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa;
+  color: #333;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Tab Navigation Styling */
+.tab-navigation {
+  display: flex;
+  justify-content: center;
+  background-color: #2c3038;
+  padding: 12px;
+  gap: 15px;
+  border-bottom: 2px solid #111111;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.tab-btn {
+  background-color: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 8px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.tab-btn.active {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.tab-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab-btn.active:hover {
+  background-color: #0056b3;
+}
+
+/* Common Section Header */
+.section-header {
+  background-color: #2c3038;
+  color: #ffffff;
+  padding: 12px 20px;
+  text-align: center;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  margin: 0;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Error banner */
+.error-banner {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  padding: 12px;
+  margin: 15px 25px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Showcase Grid Layout (Matching Screenshot 1) */
+.showcase-container {
+  background-color: #2c3038; /* dark grey container background */
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 25px;
+}
+
+/* Product Card Styling */
+.product-card {
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.card-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  margin-bottom: 15px;
+  background-color: #ffffff;
+}
+
+.card-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-title {
+  margin: 0 0 10px 0;
+  font-size: 0.95rem;
+  color: #d9534f; /* red product name title */
+  font-weight: bold;
+  line-height: 1.4;
+  height: 40px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.card-desc {
+  margin: 0 0 15px 0;
+  font-size: 0.82rem;
+  color: #555555;
+  line-height: 1.5;
+  height: 60px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.card-price-section {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.card-original-price {
+  text-decoration: line-through; /* crossed out price */
+  color: #555555;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.card-current-price {
+  color: #d9534f; /* bold red price */
+  font-weight: bold;
+  font-size: 1.15rem;
+}
+
+.btn-view-details {
+  background-color: #d9534f; /* red button */
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+
+.btn-view-details:hover {
+  background-color: #c9302c;
+}
+
+/* Management Table Layout (Matching Screenshot 2 & 3) */
+.management-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.table-container-section {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th,
+.product-table td {
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  vertical-align: middle; /* vertical center alignment */
+}
+
+.product-table th {
+  background-color: #ffffff;
+  color: #212529;
+  font-weight: bold;
+  text-align: center;
+}
+
+.product-table tbody tr:nth-of-type(even) {
+  background-color: #fdfdfd;
+}
+
+.product-table tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+.center-text {
+  text-align: center !important;
+}
+
+.product-link {
+  color: #212529;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.product-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Price Stack in Table Cells */
+.price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.original-price {
+  text-decoration: line-through; /* Price crossed out */
+  color: #333333;
+}
+
+.current-price {
+  font-weight: bold; /* Current Price bold */
+  color: #333333;
+}
+
+.currency-symbol {
+  font-size: 0.95rem;
+  margin-top: 1px;
+}
+
+/* Actions Column & Buttons */
+.action-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.btn-action {
+  width: 70px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn-delete {
+  background-color: #dc3545; /* Red Delete button */
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+.btn-edit {
+  background-color: #dc3545; /* Red Edit button as per table screenshot */
+}
+
+.btn-edit:hover {
+  background-color: #c82333;
+}
+
+/* Forms Styling (Add Form & Edit Form) */
+.add-product-container {
+  background-color: #2c3038; /* dark grey matching screenshot 2 */
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding-bottom: 25px;
+}
+
+.add-product-container .section-header {
+  border-bottom: 1px solid #444444;
+  margin-bottom: 15px;
+}
+
+.product-form {
+  padding: 0 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+}
+
+.form-group label {
+  color: #ffffff; /* white labels */
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #000000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  resize: vertical;
+  align-self: start;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.btn-submit {
+  background-color: #007bff; /* Blue Add Product button */
+  color: white;
+  padding: 8px 22px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
+}
+
+/* Edit Product Card dark style matching screenshot 3 */
+.product-edit-container {
+  max-width: 800px;
+  margin: 30px auto;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.edit-form-card {
+  background-color: #2c3038; /* dark grey matching screenshot 3 */
+  padding: 30px;
+}
+
+.product-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.edit-form-group {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+}
+
+.edit-form-group label {
+  color: #ffffff; /* white labels */
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.edit-form-group input,
+.edit-form-group textarea {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #000000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.edit-form-group textarea {
+  resize: vertical;
+  align-self: start;
+}
+
+.edit-form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+  grid-column: 1 / -1;
+}
+
+.btn-back-home-edit {
+  background-color: #007bff; /* Blue Back Home button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-back-home-edit:hover {
+  background-color: #0056b3;
+}
+
+.btn-save-product {
+  background-color: #dc3545; /* Red Save Product button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-save-product:hover {
+  background-color: #bd2130;
+}
+
+/* Product Detail Page Styles - Centered, Dark Theme matching image7.png */
+.product-detail-container {
+  max-width: 800px;
+  margin: 30px auto;
+  background-color: #2c3038; /* dark background */
+  color: #ffffff; /* white text */
+  padding: 40px 20px;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-detail-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #ffffff;
+}
+
+.product-detail-image-container {
+  background-color: #ffffff; /* White background box for the image */
+  border-radius: 4px;
+  padding: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  width: 200px;
+  height: 200px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.product-detail-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.product-detail-desc {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0 auto 20px auto;
+  max-width: 650px;
+  color: #ffffff;
+}
+
+.product-detail-price {
+  font-size: 1.15rem;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.product-detail-current-price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.product-detail-discount {
+  font-size: 1.15rem;
+  margin-bottom: 25px;
+  color: #ffffff;
+}
+
+.product-detail-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.btn-back-home {
+  background-color: #007bff; /* Blue button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-back-home:hover {
+  background-color: #0056b3;
+}
+
+.btn-edit-product-detail {
+  background-color: #dc3545; /* Red button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-edit-product-detail:hover {
+  background-color: #bd2130;
+}
+
+.no-products {
+  color: #cccccc;
+  padding: 30px;
+  text-align: center;
+  font-style: italic;
+  grid-column: 1 / -1;
+}
+
+/* Responsive grid for smaller screens */
+@media (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .form-group, .edit-form-group {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
 }
