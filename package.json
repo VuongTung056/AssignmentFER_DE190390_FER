@@ -22,7 +22,7 @@
     "yup": "^1.7.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run start:all",
     "start:all": "concurrently \"npm run server\" \"npm run client\"",
     "client": "react-scripts start",
     "server": "json-server --watch db.json --port 5000",

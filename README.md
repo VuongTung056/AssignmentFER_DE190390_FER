@@ -31,8 +31,8 @@ npm run start:all
 
 ## Scripts có sẵn
 
-- `npm start` — chạy frontend duy nhất
-- `npm run start:all` — chạy frontend + JSON Server
+- `npm start` — chạy frontend + mock API cùng lúc
+- `npm run start:all` — chạy frontend + JSON Server (same as `npm start`)
 - `npm run server` — chạy mock API
 - `npm run client` — chạy frontend
 - `npm run build` — build production
