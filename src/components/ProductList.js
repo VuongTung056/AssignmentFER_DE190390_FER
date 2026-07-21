@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchProducts, addProduct, deleteProduct } from '../store/productSlice';
@@ -14,6 +14,11 @@ import laptop7 from '../assets/laptop7.jpg';
 import laptop8 from '../assets/laptop8.jpg';
 import laptop9 from '../assets/laptop9.png';
 import laptop10 from '../assets/laptop10.png';
+
+import ProductCard from './ProductCard';
+import Filters from './Filters';
+import Pagination from './Pagination';
+import Spinner from './Spinner';
 
 const imageMap = {
   'laptop1.png': laptop1,
@@ -36,6 +41,13 @@ const ProductList = () => {
   // Tab state: 'showcase' (Grid view) or 'manage' (Table view + Add form)
   const [activeTab, setActiveTab] = useState('showcase');
 
+  // Search / filter / sort / pagination state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState({ brand: '', minPrice: null, maxPrice: null });
+  const [sortBy, setSortBy] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 8;
+
   // Form states for adding new product
   const [formData, setFormData] = useState({
     name: '',
@@ -57,6 +69,32 @@ const ProductList = () => {
       [name]: value,
     }));
   };
+
+  const handleSearch = (q) => { setSearchQuery(q); setCurrentPage(1); };
+  const handleFilterChange = (f) => { setFilters(f); setCurrentPage(1); };
+  const handleSortChange = (s) => setSortBy(s);
+
+  const filteredProducts = useMemo(() => {
+    let list = products.map(p => ({
+      ...p,
+      brand: (p.brand || p.name || '').split(' ')[0]
+    }));
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(p => (p.name||'').toLowerCase().includes(q) || (p.brand||'').toLowerCase().includes(q));
+    }
+    if (filters.brand) list = list.filter(p => (p.brand||'').toLowerCase() === filters.brand.toLowerCase());
+    if (filters.minPrice) list = list.filter(p => Number(String(p.currentPrice).replace(/\D/g,'')) >= filters.minPrice);
+    if (filters.maxPrice) list = list.filter(p => Number(String(p.currentPrice).replace(/\D/g,'')) <= filters.maxPrice);
+    if (sortBy === 'price_asc') list.sort((a,b)=> Number(String(a.currentPrice).replace(/\D/g,'')) - Number(String(b.currentPrice).replace(/\D/g,'')));
+    if (sortBy === 'price_desc') list.sort((a,b)=> Number(String(b.currentPrice).replace(/\D/g,'')) - Number(String(a.currentPrice).replace(/\D/g,'')));
+    if (sortBy === 'name_asc') list.sort((a,b)=> (a.name||'').localeCompare(b.name||''));
+    if (sortBy === 'newest') list.sort((a,b)=> new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+    return list;
+  }, [products, searchQuery, filters, sortBy]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / pageSize));
+  const pageItems = filteredProducts.slice((currentPage-1)*pageSize, currentPage*pageSize);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -102,7 +140,7 @@ const ProductList = () => {
 
   return (
     <div className="product-list-page">
-      {/* Navigation tabs at the top */}
+      {/* Top controls: tabs + filters */}
       <div className="tab-navigation">
         <button
           className={`tab-btn ${activeTab === 'showcase' ? 'active' : ''}`}
@@ -120,6 +158,12 @@ const ProductList = () => {
 
       {error && <div className="error-banner">Error: {error}</div>}
 
+      {activeTab === 'showcase' && (
+        <div className="controls-row">
+          <Filters onSearch={handleSearch} onFilterChange={handleFilterChange} onSortChange={handleSortChange} />
+        </div>
+      )}
+
       {/* RENDER ACTIVE TAB */}
       {activeTab === 'showcase' ? (
         <div className="showcase-container">
@@ -127,36 +171,18 @@ const ProductList = () => {
             <h2>Product List</h2>
           </div>
           {loading && products.length === 0 ? (
-            <div className="loading-spinner">Loading showcase...</div>
+            <Spinner text="Loading showcase..." />
           ) : (
-            <div className="product-grid">
-              {products.map((product) => {
-                const imageSrc = imageMap[product.image] || laptop1;
-                return (
-                  <div className="product-card" key={product.id}>
-                    <div className="card-image-container">
-                      <img src={imageSrc} alt={product.name} className="card-image" />
-                    </div>
-                    <div className="card-content">
-                      <h4 className="card-title">{product.name}</h4>
-                      <p className="card-desc">{product.description}</p>
-                      <div className="card-price-section">
-                        <div className="card-original-price">{product.price} đ</div>
-                        <div className="card-current-price">{product.currentPrice} đ</div>
-                      </div>
-                      <button
-                        className="btn-view-details"
-                        onClick={() => navigate(`/product/${product.id}`)}
-                      >
-                        View Details
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-              {products.length === 0 && (
-                <div className="no-products">No products found.</div>
-              )}
+            <div>
+              <div className="product-grid">
+                {pageItems.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+                {filteredProducts.length === 0 && (
+                  <div className="no-products">No products found.</div>
+                )}
+              </div>
+              <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
             </div>
           )}
         </div>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchProductById, updateProduct, clearError } from '../store/productSlice';
+import { fetchProductById, updateProduct } from '../store/slices/productsSlice';
+import { clearError } from '../store/slices/productsSlice';
 
 const ProductEdit = () => {
   const { id } = useParams();
